@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>aframe-test</title>
+  <meta name="description" content="aframe-test">
+  <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
+  <script>
+  // Initialize Firebase
+  /*
+  const config = {
+      apiKey: "AIzaSyD2hSO7MVIerHLFDpKaRYm18PQbqPbP3jM",
+      authDomain: "testing-f302e.firebaseapp.com",
+      databaseURL: "https://testing-f302e.firebaseio.com",
+      projectId: "testing-f302e",
+      storageBucket: "testing-f302e.appspot.com",
+      messagingSenderId: "890957338365"
+    };
+    firebase.initializeApp(config);*/
+  </script>
+
+  <script src="https://aframe.io/releases/0.4.0/aframe.min.js"></script>
+  <script src="https://cdn.firebase.com/libs/firebaseui/2.0.0/firebaseui.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.0.0/firebaseui.css" />
+  
+  <script src="https://unpkg.com/aframe-physics-system@^1.2.x/dist/aframe-physics-system.min.js"></script>
+  <script src="https://unpkg.com/aframe-firebase-component@^4.0.0/dist/aframe-firebase-component.min.js"></script>
+
+  <!--<script src="auth.js"></script>-->
+</head>
+
+<body>
+  <a-scene firebase="apiKey: AIzaSyD2hSO7MVIerHLFDpKaRYm18PQbqPbP3jM;
+                     authDomain: testing-f302e.firebaseapp.com;
+                     databaseURL: https://testing-f302e.firebaseio.com;
+                     storageBucket: testing-f302e.appspot.com">
+    <a-assets>
+      <img id="groundTexture" src="/assets/textures/floor.jpg"/>
+      <img id="skyTexture" src="/assets/textures/sky.jpg"/>
+      <a-mixin id="avatar-head"
+        geometry="primitive: box; depth: 0.3; height: 0.3; width: 0.3"
+        material="color: #F00"></a-mixin>
+      <a-mixin id="bal" geometry="primitive: sphere; radius: 1.25" material="color: #EF2D5E"></a-mixin>
+    </a-assets>
+
+    <!-- Primitives. -->
+    <a-box position="-1 0.6 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
+    <a-entity position="0 2.35 -5" mixin="bal" firebase-broadcast="components: mixin, position, rotation" dynamic-body ></a-entity>
+    <a-cylinder position="1 0.85 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
+    <a-plane position="0 .1 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4" static-body></a-plane>
+
+    <!-- Background sky. -->
+    <a-sky height="2048" radius="30" src="#skyTexture" theta-length="90" width="2048"></a-sky>
+
+    <!-- Ground. -->
+    <a-circle src="#groundTexture" rotation="-90 0 0" radius="32"></a-circle>
+
+    <a-entity camera="userHeight:1.6" wasd-controls look-controls mixin="avatar-head" firebase-broadcast="components: mixin, position, rotation">
+      <a-box static-body></a-box>
+    </a-entity>
+  </a-scene>
+</body>
+
+</html>

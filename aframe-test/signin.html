@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>aframe-test</title>
+    <meta name="description" content="aframe-test">
+    
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.0.0/firebaseui.css" />
+
+    <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
+    <script src="https://cdn.firebase.com/libs/firebaseui/2.0.0/firebaseui.js"></script>
+
+    <script>
+        // Initialize Firebase
+        const config = {
+            apiKey: "AIzaSyD2hSO7MVIerHLFDpKaRYm18PQbqPbP3jM",
+            authDomain: "testing-f302e.firebaseapp.com",
+            databaseURL: "https://testing-f302e.firebaseio.com",
+            projectId: "testing-f302e",
+            storageBucket: "testing-f302e.appspot.com",
+            messagingSenderId: "890957338365"
+        };
+        firebase.initializeApp(config);
+
+        console.log("Init authentication");
+        const uiConfig = {
+            signInSuccessUrl: 'http://localhost:8080/app.html',
+            signInOptions: [
+                firebase.auth.GoogleAuthProvider.PROVIDER_ID
+            ]
+        };
+
+        const ui = new firebaseui.auth.AuthUI(firebase.auth());
+        // The start method will wait until the DOM is loaded.
+        ui.start('#firebaseui-auth-container', uiConfig);
+    </script>
+</head>
+
+<body>
+    <div id="firebaseui-auth-container"></div>
+</body>
+
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>aframe-test</title>
+  <meta name="description" content="aframe-test">
+
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.0.0/firebaseui.css" />
+
+  <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
+  <script src="https://cdn.firebase.com/libs/firebaseui/2.0.0/firebaseui.js"></script>
+
+  <script>
+    // Initialize Firebase
+    const config = {
+      apiKey: "AIzaSyD2hSO7MVIerHLFDpKaRYm18PQbqPbP3jM",
+      authDomain: "testing-f302e.firebaseapp.com",
+      databaseURL: "https://testing-f302e.firebaseio.com",
+      projectId: "testing-f302e",
+      storageBucket: "testing-f302e.appspot.com",
+      messagingSenderId: "890957338365"
+    };
+    firebase.initializeApp(config);
+
+    console.log("Init authentication");
+    const uiConfig = {
+      signInSuccessUrl: 'http://localhost:8080/app.html',
+      signInOptions: [
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID
+      ]
+    };
+
+    initApp = function () {
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          // User is signed in.
+          var displayName = user.displayName;
+          var email = user.email;
+          var emailVerified = user.emailVerified;
+          var photoURL = user.photoURL;
+          var uid = user.uid;
+          var phoneNumber = user.phoneNumber;
+          var providerData = user.providerData;
+          user.getToken().then(function (accessToken) {
+            document.getElementById('sign-in-status').textContent = 'Signed in';
+            document.getElementById('sign-in').textContent = 'Sign out';
+            document.getElementById('account-details').textContent = JSON.stringify({
+              displayName: displayName,
+              email: email,
+              emailVerified: emailVerified,
+              phoneNumber: phoneNumber,
+              photoURL: photoURL,
+              uid: uid,
+              accessToken: accessToken,
+              providerData: providerData
+            }, null, '  ');
+          });
+        } else {
+          // User is signed out.
+          document.getElementById('sign-in-status').textContent = 'Signed out';
+          document.getElementById('sign-in').textContent = 'Sign in';
+          document.getElementById('account-details').textContent = 'null';
+        }
+      }, function (error) {
+        console.log(error);
+      });
+    };
+
+    function signOut() {
+      console.log("signOut")
+      firebase.auth().signOut();
+    }
+
+    window.addEventListener('load', function () {
+      initApp()
+    });
+  </script>
+</head>
+
+<body>
+  <div id="sign-in-status"></div>
+  <div id="sign-in"></div>
+  <div id="account-details"></div>
+  <button onclick="signOut()">Sign out</button>
+</body>
+
+</html>
